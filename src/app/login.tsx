@@ -1,5 +1,6 @@
+import { Theme, useTheme } from "@/theme";
 import type { Session } from "@supabase/supabase-js";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
     ActivityIndicator,
     KeyboardAvoidingView,
@@ -14,6 +15,9 @@ import {
 import { supabase } from "../../lib/supabase";
 
 export default function Login() {
+  const theme = useTheme();
+  const styles = useMemo(() => createStyles(theme), [theme]);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -87,7 +91,7 @@ export default function Login() {
               <TextInput
                 style={styles.input}
                 placeholder="E-mail"
-                placeholderTextColor="#999"
+                placeholderTextColor={theme.textMuted}
                 autoCapitalize="none"
                 autoComplete="email"
                 keyboardType="email-address"
@@ -97,7 +101,7 @@ export default function Login() {
               <TextInput
                 style={styles.input}
                 placeholder="Senha (mínimo 6 caracteres)"
-                placeholderTextColor="#999"
+                placeholderTextColor={theme.textMuted}
                 secureTextEntry
                 autoComplete="password"
                 value={password}
@@ -111,7 +115,7 @@ export default function Login() {
                 disabled={loading}
               >
                 {loading ? (
-                  <ActivityIndicator color="#fff" />
+                  <ActivityIndicator color={theme.onPrimary} />
                 ) : (
                   <Text style={styles.buttonText}>Entrar</Text>
                 )}
@@ -138,64 +142,65 @@ export default function Login() {
   );
 }
 
-const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: "#f4f6f8" },
-  scroll: {
-    flexGrow: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 24,
-  },
-  card: {
-    width: "100%",
-    maxWidth: 400,
-    backgroundColor: "#fff",
-    borderRadius: 16,
-    padding: 24,
-    gap: 12,
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 3,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "#111",
-  },
-  subtitle: {
-    fontSize: 15,
-    textAlign: "center",
-    color: "#555",
-    marginBottom: 8,
-  },
-  email: { textAlign: "center", color: "#111", marginBottom: 8 },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    color: "#111",
-  },
-  button: {
-    backgroundColor: "#0a7ea4",
-    padding: 14,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  buttonText: { color: "#fff", fontWeight: "600", fontSize: 16 },
-  buttonOutline: {
-    borderWidth: 1,
-    borderColor: "#0a7ea4",
-    padding: 14,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  outlineText: { color: "#0a7ea4", fontWeight: "600", fontSize: 16 },
-  disabled: { opacity: 0.6 },
-  error: { color: "#b00020", textAlign: "center" },
-  success: { color: "#1b7f3b", textAlign: "center" },
-});
+const createStyles = (t: Theme) =>
+  StyleSheet.create({
+    screen: { flex: 1, backgroundColor: t.background },
+    scroll: {
+      flexGrow: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 24,
+    },
+    card: {
+      width: "100%",
+      maxWidth: 400,
+      backgroundColor: t.card,
+      borderRadius: 16,
+      padding: 24,
+      gap: 12,
+      shadowColor: t.shadow,
+      shadowOpacity: 0.08,
+      shadowRadius: 12,
+      shadowOffset: { width: 0, height: 4 },
+      elevation: 3,
+    },
+    title: {
+      fontSize: 28,
+      fontWeight: "bold",
+      textAlign: "center",
+      color: t.text,
+    },
+    subtitle: {
+      fontSize: 15,
+      textAlign: "center",
+      color: t.textMuted,
+      marginBottom: 8,
+    },
+    email: { textAlign: "center", color: t.text, marginBottom: 8 },
+    input: {
+      borderWidth: 1,
+      borderColor: t.border,
+      borderRadius: 8,
+      padding: 12,
+      fontSize: 16,
+      color: t.text,
+    },
+    button: {
+      backgroundColor: t.primary,
+      padding: 14,
+      borderRadius: 8,
+      alignItems: "center",
+    },
+    buttonText: { color: t.onPrimary, fontWeight: "600", fontSize: 16 },
+    buttonOutline: {
+      borderWidth: 1,
+      borderColor: t.primary,
+      padding: 14,
+      borderRadius: 8,
+      alignItems: "center",
+    },
+    outlineText: { color: t.primary, fontWeight: "600", fontSize: 16 },
+    disabled: { opacity: 0.6 },
+    error: { color: t.error, textAlign: "center" },
+    success: { color: t.success, textAlign: "center" },
+  });
