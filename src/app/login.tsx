@@ -1,21 +1,22 @@
-import { Theme, useTheme } from "@/theme";
 import type { Session } from "@supabase/supabase-js";
 import { useEffect, useMemo, useState } from "react";
 import {
-    ActivityIndicator,
-    KeyboardAvoidingView,
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 import { supabase } from "../../lib/supabase";
+import { Theme, useTheme } from "../theme";
 
 export default function Login() {
   const theme = useTheme();
+
   const styles = useMemo(() => createStyles(theme), [theme]);
 
   const [email, setEmail] = useState("");
@@ -187,6 +188,8 @@ const createStyles = (t: Theme) =>
     },
     button: {
       backgroundColor: t.primary,
+      borderWidth: 1,
+      borderColor: t.primary,
       padding: 14,
       borderRadius: 8,
       alignItems: "center",
